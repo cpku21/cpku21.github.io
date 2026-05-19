@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Srđan Vasić — Frontend Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: #242430;
+    --border-bright: #32324a;
+    --accent: #6c63ff;
+    --accent2: #ff6b6b;
+    --accent3: #00d4aa;
+    --text: #f0f0f8;
+    --muted: #8888a8;
+    --faint: #44445a;
+    --syne: 'Syne', sans-serif;
+    --mono: 'DM Mono', monospace;
+    --inter: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--inter);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.018;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem 4rem;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-name {
+    font-family: var(--syne);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+  .hero-name span {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 520px;
+    font-weight: 300;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.3s;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+
+  .hero-link {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .hero-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    background: rgba(108,99,255,0.06);
+  }
+  .hero-link svg { flex-shrink: 0; }
+
+  .hero-stack {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.5s;
+  }
+  .stack-pill {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--faint);
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .stack-pill.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(108,99,255,0.08);
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 2.5rem;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── PROJECT CARDS ── */
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--surface);
+    transition: border-color 0.3s;
+    margin-bottom: 2rem;
+  }
+  .project-card:last-child { margin-bottom: 0; }
+  .project-card:hover { border-color: var(--border-bright); }
+
+  .project-card.hero-card {
+    border-color: var(--border-bright);
+    background: linear-gradient(135deg, var(--surface) 0%, #13131f 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card.hero-card::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .project-top {
+    padding: 2rem 2.5rem 1.75rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .project-number {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--faint);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-title {
+    font-family: var(--syne);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .project-title.big { font-size: 2.6rem; }
+
+  .project-sub {
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .project-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .badge-live {
+    background: rgba(0,212,170,0.12);
+    color: var(--accent3);
+    border: 1px solid rgba(0,212,170,0.3);
+  }
+  .badge-wip {
+    background: rgba(255,107,107,0.08);
+    color: var(--accent2);
+    border: 1px solid rgba(255,107,107,0.25);
+  }
+  .badge-done {
+    background: rgba(108,99,255,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(108,99,255,0.3);
+  }
+  .badge-unfinished {
+    background: rgba(136,136,168,0.08);
+    color: var(--faint);
+    border: 1px solid var(--border);
+  }
+
+  /* ── PROJECT BODY GRID ── */
+  .project-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  @media (max-width: 660px) {
+    .project-body { grid-template-columns: 1fr; }
+  }
+
+  .project-col {
+    padding: 2rem 2.5rem;
+  }
+  .project-col + .project-col {
+    border-left: 1px solid var(--border);
+  }
+  @media (max-width: 660px) {
+    .project-col + .project-col {
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+  }
+
+  .col-title {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 1.25rem;
+  }
+
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .feature-list li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .feature-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+    top: 0.12rem;
+  }
+  .feature-list li strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .feature-list li code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.05rem 0.35rem;
+    border-radius: 3px;
+    color: var(--accent3);
+  }
+
+  /* ── TECH STACK ROW ── */
+  .project-stack {
+    padding: 1.25rem 2.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .tech-tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+  }
+  .tech-tag.hl {
+    color: var(--accent);
+    border-color: rgba(108,99,255,0.35);
+    background: rgba(108,99,255,0.07);
+  }
+
+  /* ── PROJECT FOOTER ── */
+  .project-footer {
+    padding: 1.25rem 2.5rem;
+    border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .project-footer-note {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--faint);
+    letter-spacing: 0.03em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-bright);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    background: rgba(108,99,255,0.07);
+  }
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn.primary:hover {
+    background: #7c74ff;
+    border-color: #7c74ff;
+    color: #fff;
+  }
+
+  /* ── API TABLE ── */
+  .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+  .api-table th {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .api-table td {
+    padding: 0.5rem 0.75rem;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .api-table tr:last-child td { border-bottom: none; }
+  .api-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .method {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+  }
+  .method-get { color: var(--accent3); background: rgba(0,212,170,0.1); }
+  .method-post { color: #f6ad55; background: rgba(246,173,85,0.1); }
+  .method-put { color: var(--accent); background: rgba(108,99,255,0.1); }
+  .endpoint-path {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text);
+  }
+  .auth-yes {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--accent2);
+    background: rgba(255,107,107,0.08);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+  }
+  .auth-no {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--faint);
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--border);
+  }
+  .skill-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+  .skill-card:hover { background: var(--surface2); }
+  .skill-cat {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .skill-items {
+    font-size: 0.86rem;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--border);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .tl-item:last-child { margin-bottom: 0; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -1.9rem;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--bg);
+  }
+  .tl-date {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .tl-title {
+    font-family: var(--syne);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  .tl-desc {
+    font-size: 0.84rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ── INTERVIEW BOX ── */
+  .interview-box {
+    border: 1px solid var(--border-bright);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .interview-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .interview-header::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent3);
+    box-shadow: 0 0 8px var(--accent3);
+  }
+  .interview-body {
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .interview-body strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ── WIDE BODY FULL ── */
+  .project-body-full {
+    padding: 2rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+  @media (max-width: 660px) {
+    .project-body-full { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+
+  /* ── API SECTION FULL WIDTH ── */
+  .api-full {
+    padding: 0 2.5rem 2rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.75rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .hero { padding: 3rem 1.25rem 2.5rem; }
+    .section { padding: 3rem 1.25rem; }
+    .project-top { padding: 1.5rem; }
+    .project-col { padding: 1.5rem; }
+    .project-stack { padding: 1rem 1.5rem; }
+    .project-footer { padding: 1rem 1.5rem; }
+    .project-body-full { padding: 1.5rem; }
+    .api-full { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <p class="hero-eyebrow">Frontend Developer · Portfolio</p>
+  <h1 class="hero-name">Srđan<br/><span>Vasić</span></h1>
+  <p class="hero-desc">
+    Self-taught frontend developer building real products with React and Next.js.
+    Delivered a deployed full-stack application in early 2026 — peer-to-peer car rental platform with auth, REST API, MongoDB, and PWA support.
+  </p>
+  <div class="hero-links">
+    <a href="https://github.com/cpku21" class="hero-link" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      github.com/cpku21
+    </a>
+    <a href="mailto:srdjanns95@gmail.com" class="hero-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      srdjanns95@gmail.com
+    </a>
+    <a href="https://rent-my-car-app.vercel.app" class="hero-link" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Live demo
+    </a>
+  </div>
+
+  <div class="hero-stack">
+    <span class="stack-pill active">Next.js 14</span>
+    <span class="stack-pill active">React 18</span>
+    <span class="stack-pill active">TypeScript</span>
+    <span class="stack-pill active">MongoDB</span>
+    <span class="stack-pill active">NextAuth.js</span>
+    <span class="stack-pill active">Tailwind CSS</span>
+    <span class="stack-pill">Redux Toolkit</span>
+    <span class="stack-pill">Styled Components</span>
+    <span class="stack-pill">Formik + Yup</span>
+    <span class="stack-pill">Zod</span>
+    <span class="stack-pill">PWA</span>
+    <span class="stack-pill">Vercel</span>
+  </div>
+</header>
+
+<div class="section-divider"></div>
+
+<!-- ── TIMELINE ── -->
+<section class="section reveal">
+  <p class="section-label">Project timeline</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <p class="tl-date">2022 – 2023</p>
+      <p class="tl-title">Foundation</p>
+      <p class="tl-desc">HTML, CSS, JavaScript fundamentals. Mini projects: counter, traffic light simulation, tic-tac-toe, todo list.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-date">Apr 2023</p>
+      <p class="tl-title">Educator v1 — React SPA</p>
+      <p class="tl-desc">First real-world app — multi-page tutoring platform with auth, CRUD, Redux Toolkit, connected to Spring Boot backend.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-date">Feb 2024</p>
+      <p class="tl-title">Educator v2 — Next.js redesign</p>
+      <p class="tl-desc">Mentor decision to rebuild on Next.js 13. Modern landing page, custom hooks, generic TypeScript components.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-date">Jan 2026</p>
+      <p class="tl-title">RentMyCar — deployed ✓</p>
+      <p class="tl-desc">Full-stack Next.js 14 application — auth, MongoDB, REST API, PWA, mobile-responsive. Live on Vercel.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     PROJECT 1 — RentMyCar (HERO)
+═══════════════════════════════════════════════ -->
+<section class="section reveal">
+  <p class="section-label">Project 01 — Main</p>
+
+  <div class="project-card hero-card">
+
+    <div class="project-top">
+      <div>
+        <p class="project-number">01 / 03</p>
+        <h2 class="project-title big">RentMyCar</h2>
+        <p class="project-sub">Peer-to-peer car rental platform — owners list vehicles, users search and book them</p>
+      </div>
+      <div class="project-badges">
+        <span class="badge badge-live">● Live</span>
+        <span class="badge badge-wip">In Progress</span>
+        <span class="badge badge-done">Full-stack</span>
+      </div>
+    </div>
+
+    <div class="project-body-full">
+      <div>
+        <p class="col-title">What's built</p>
+        <ul class="feature-list">
+          <li><strong>Auth system</strong> — sign-up, sign-in, forgot-password; JWT tokens via NextAuth.js, bcrypt password hashing, route protection through Next.js middleware</li>
+          <li><strong>Car listings</strong> — add a car with 7 enumerated fields (make, type, engine, city, registration, mileage, consumption) and multi-image upload</li>
+          <li><strong>Image pipeline</strong> — uploaded images processed server-side with <code>Sharp</code> (resized to 800×600, JPEG compressed), stored as base64 in MongoDB</li>
+          <li><strong>Search & filter</strong> — filter by make, type, engine, city, price range; results paginated with page / limit / totalPages response</li>
+          <li><strong>Availability logic</strong> — 3-case MongoDB overlap query excludes already-booked cars from results in real time</li>
+          <li><strong>Booking system</strong> — date range picker, total cost calculated server-side (days × pricePerDay), saved to DB with car/user references</li>
+          <li><strong>Owner dashboard</strong> — view own listings, update car via modal, paginated rental history</li>
+          <li><strong>PWA</strong> — Service Worker at <code>/sw.js</code>, installable on mobile as native-like app</li>
+          <li><strong>Responsive</strong> — separate desktop and mobile component sets for best UX on both</li>
+          <li><strong>Analytics</strong> — Vercel Analytics + Speed Insights integrated</li>
+        </ul>
+      </div>
+      <div>
+        <p class="col-title">Technical highlights</p>
+        <ul class="feature-list">
+          <li><strong>Next.js App Router</strong> — file-based routing, server components, API routes all in one project</li>
+          <li><strong>Mongoose schemas</strong> with enum validation, <code>populate()</code> joins, and connection caching pattern for serverless (prevents connection pool exhaustion on Vercel)</li>
+          <li><strong>MongoDB overlap query</strong> — handles 3 rental conflict cases: start inside, end inside, and full overlap</li>
+          <li><strong>Zod validation</strong> on all API inputs — type-safe request parsing</li>
+          <li><strong>NextAuth CredentialsProvider</strong> — custom sign-in flow with MongoDB lookup and bcrypt.compare</li>
+          <li><strong>Sharp image processing</strong> — server-side compression with dynamic import (avoids edge runtime issues)</li>
+          <li><strong>React Hook Form</strong> + Zod resolvers for all client-side forms</li>
+          <li><strong>Radix UI</strong> primitives — accessible Select, Checkbox, Popover, RadioGroup, Label components</li>
+          <li><strong>Mobile detection</strong> — CSR utility + <code>useMediaQuery</code> hook for adaptive rendering</li>
+          <li><strong>TypeScript throughout</strong> — strict types, interfaces for all models and API responses</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- API TABLE -->
+    <div class="api-full">
+      <p class="col-title" style="margin-bottom:1rem">REST API endpoints</p>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+            <th>Auth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/auth/signup</td><td>Register new user, hash password, store images</td><td><span class="auth-no">—</span></td></tr>
+          <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/auth/signin</td><td>Verify credentials, issue JWT session</td><td><span class="auth-no">—</span></td></tr>
+          <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/auth/forgot-password</td><td>Validate email existence</td><td><span class="auth-no">—</span></td></tr>
+          <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/cars</td><td>List available cars with filters, availability check, pagination</td><td><span class="auth-no">—</span></td></tr>
+          <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/cars/add-car</td><td>Create listing with image processing via Sharp</td><td><span class="auth-yes">JWT</span></td></tr>
+          <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/cars/my-cars</td><td>Get current user's own listings</td><td><span class="auth-yes">JWT</span></td></tr>
+          <tr><td><span class="method method-put">PUT</span></td><td class="endpoint-path">/api/cars/update-car</td><td>Update car details</td><td><span class="auth-yes">JWT</span></td></tr>
+          <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/book-now</td><td>Create rental, calculate cost server-side</td><td><span class="auth-yes">JWT</span></td></tr>
+          <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/my-rentals</td><td>Get user's booking history</td><td><span class="auth-yes">JWT</span></td></tr>
+          <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/users/[id]</td><td>Get public user/owner profile</td><td><span class="auth-no">—</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="project-stack">
+      <span class="tech-tag hl">Next.js 14</span>
+      <span class="tech-tag hl">TypeScript</span>
+      <span class="tech-tag hl">MongoDB</span>
+      <span class="tech-tag hl">Mongoose</span>
+      <span class="tech-tag hl">NextAuth.js</span>
+      <span class="tech-tag hl">Tailwind CSS</span>
+      <span class="tech-tag hl">Zod</span>
+      <span class="tech-tag">Radix UI</span>
+      <span class="tech-tag">React Hook Form</span>
+      <span class="tech-tag">Sharp</span>
+      <span class="tech-tag">Lucide React</span>
+      <span class="tech-tag">PWA</span>
+      <span class="tech-tag">Vercel</span>
+      <span class="tech-tag">bcryptjs</span>
+    </div>
+
+    <div class="project-footer">
+      <span class="project-footer-note">Deployed on Vercel · Jan 2026 · In active development</span>
+      <div class="footer-links">
+        <a href="https://github.com/cpku21/rent-my-car-app" class="btn" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          GitHub
+        </a>
+        <a href="https://rent-my-car-app.vercel.app" class="btn primary" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live demo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     PROJECT 2 — Educator v2
+═══════════════════════════════════════════════ -->
+<section class="section reveal">
+  <p class="section-label">Project 02</p>
+
+  <div class="project-card">
+    <div class="project-top">
+      <div>
+        <p class="project-number">02 / 03</p>
+        <h2 class="project-title">Educator — Course App (v2)</h2>
+        <p class="project-sub">Next.js 13 redesign · Modern landing page · Custom hooks · Component library</p>
+      </div>
+      <div class="project-badges">
+        <span class="badge badge-unfinished">Unfinished</span>
+        <span class="badge badge-done">Next.js 13</span>
+      </div>
+    </div>
+
+    <div class="project-body">
+      <div class="project-col">
+        <p class="col-title">What was built</p>
+        <ul class="feature-list">
+          <li><strong>Multi-section landing page</strong> — Navbar, Hero, Explore subjects, Educator stats, Testimonials carousel (react-slick), BecomeStudentTutor, FAQ, EndingSection, Footer</li>
+          <li><strong>Sign-in & register pages</strong> — Formik + Yup validation, Redux Toolkit login thunk, Next.js router redirect on success</li>
+          <li><strong>Sub-pages</strong> — How it works, Find a tutor, Become a tutor</li>
+          <li><strong>Layout component</strong> — LandingLayout wraps all pages for consistent header/footer structure</li>
+          <li><strong>Typed asset files</strong> — <code>Images.tsx</code> and <code>Icons.tsx</code> centralize all assets with TypeScript types</li>
+          <li><strong>Language file</strong> — all UI strings in <code>en.tsx</code>, i18n-ready from day one</li>
+        </ul>
+      </div>
+      <div class="project-col">
+        <p class="col-title">Technical highlights</p>
+        <ul class="feature-list">
+          <li><strong><code>useScreenResize</code></strong> — debounced (150ms) window resize listener, returns live width + height with proper cleanup</li>
+          <li><strong><code>useTextOverflow</code></strong> — measures actual pixel width of text, detects when ellipsis should appear</li>
+          <li><strong><code>useHasScroller</code></strong> — detects scrollbar presence on any element</li>
+          <li><strong>Generic Dropdown&lt;T&gt;</strong> — fully typed with TypeScript generics, works with any option type</li>
+          <li><strong>Redux slice</strong> — pending/fulfilled/rejected states, persists token, calls Axios helper to attach Bearer header</li>
+          <li><strong>ESLint (Airbnb config)</strong> + <strong>Prettier</strong> — strict code quality enforced throughout</li>
+          <li><strong>PostgreSQL backend</strong> — Axios service layer, baseAxios instance with token interceptors</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project-stack">
+      <span class="tech-tag hl">Next.js 13</span>
+      <span class="tech-tag hl">TypeScript</span>
+      <span class="tech-tag hl">Redux Toolkit</span>
+      <span class="tech-tag hl">Styled Components</span>
+      <span class="tech-tag hl">Formik + Yup</span>
+      <span class="tech-tag">Axios</span>
+      <span class="tech-tag">Ant Design 5</span>
+      <span class="tech-tag">redux-persist</span>
+      <span class="tech-tag">ESLint Airbnb</span>
+      <span class="tech-tag">PostgreSQL</span>
+    </div>
+
+    <div class="project-footer">
+      <span class="project-footer-note">Mentor-led redesign from CRA → Next.js 13 · Paused, architecture was deprecated</span>
+      <a href="https://github.com/stefan-lukic/course-app" class="btn" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     PROJECT 3 — Educator v1
+═══════════════════════════════════════════════ -->
+<section class="section reveal">
+  <p class="section-label">Project 03</p>
+
+  <div class="project-card">
+    <div class="project-top">
+      <div>
+        <p class="project-number">03 / 03</p>
+        <h2 class="project-title">Educator — Demo App (v1)</h2>
+        <p class="project-sub">React 18 SPA · Full auth & CRUD · Spring Boot backend integration</p>
+      </div>
+      <div class="project-badges">
+        <span class="badge badge-unfinished">Unfinished</span>
+        <span class="badge badge-done">React 18</span>
+      </div>
+    </div>
+
+    <div class="project-body">
+      <div class="project-col">
+        <p class="col-title">What was built</p>
+        <ul class="feature-list">
+          <li><strong>Full multi-page SPA</strong> — Landing, Login, Register, Dashboard, Subject Page, Lecture Page, Teacher Search / Profile</li>
+          <li><strong>Role-based registration</strong> — student or professor, separate forms and API calls per role</li>
+          <li><strong>Protected routes</strong> — custom <code>ProtectedRoute</code> component redirects unauthenticated users to login</li>
+          <li><strong>Dashboard</strong> — lists study Fields from API, add/delete with confirmation modal</li>
+          <li><strong>Subject page</strong> — real-time search by name, add/delete subjects per field</li>
+          <li><strong>Lecture page</strong> — lists lectures, slide-out right sidebar with lecture detail view</li>
+          <li><strong>Teacher search</strong> — filter teachers, view profile by ID from URL param</li>
+        </ul>
+      </div>
+      <div class="project-col">
+        <p class="col-title">Technical highlights</p>
+        <ul class="feature-list">
+          <li><strong>JWT auth flow</strong> — token in localStorage, auto-attached via custom Axios instance with <code>Authorization: Bearer</code> interceptor</li>
+          <li><strong>7 API service modules</strong> — admin, users, fields, subjects, lectures, reservations, notes; each with typed request/response</li>
+          <li><strong>Redux Toolkit</strong> — async thunks with pending/fulfilled/rejected states, redux-persist for session</li>
+          <li><strong>RouterUtils pattern</strong> — custom context with refs wrapping <code>useNavigate</code>/<code>useLocation</code>, preventing unnecessary re-renders on route change</li>
+          <li><strong>Reusable component library</strong> — Button, Input, Dropdown, DatePicker, Tags, TextArea, IconTooltip, DeleteModal, SearchBar, RightSideBar, all with Styled Components</li>
+          <li><strong>Spring Boot + PostgreSQL backend</strong> — JWT-secured REST endpoints developed by a separate team member</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project-stack">
+      <span class="tech-tag hl">React 18</span>
+      <span class="tech-tag hl">TypeScript</span>
+      <span class="tech-tag hl">Redux Toolkit</span>
+      <span class="tech-tag hl">Styled Components</span>
+      <span class="tech-tag hl">Formik + Yup</span>
+      <span class="tech-tag">Axios</span>
+      <span class="tech-tag">MUI</span>
+      <span class="tech-tag">Ant Design</span>
+      <span class="tech-tag">React Router v6</span>
+      <span class="tech-tag">redux-persist</span>
+    </div>
+
+    <div class="project-footer">
+      <span class="project-footer-note">Frontend only · Backend by team member · Replaced by v2</span>
+      <a href="https://github.com/stefan-lukic/demo_proj_app" class="btn" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── SKILLS ── -->
+<section class="section reveal">
+  <p class="section-label">Skills across all projects</p>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <p class="skill-cat">Core</p>
+      <div class="skill-items">React 18<br/>Next.js 14<br/>TypeScript<br/>JavaScript ES6+</div>
+    </div>
+    <div class="skill-card">
+      <p class="skill-cat">Styling</p>
+      <div class="skill-items">Tailwind CSS<br/>Styled Components<br/>Radix UI<br/>MUI · Ant Design</div>
+    </div>
+    <div class="skill-card">
+      <p class="skill-cat">State & Forms</p>
+      <div class="skill-items">Redux Toolkit<br/>Zod · React Hook Form<br/>Formik + Yup<br/>redux-persist</div>
+    </div>
+    <div class="skill-card">
+      <p class="skill-cat">Backend & DB</p>
+      <div class="skill-items">Next.js API Routes<br/>MongoDB + Mongoose<br/>PostgreSQL<br/>REST API · Axios</div>
+    </div>
+    <div class="skill-card">
+      <p class="skill-cat">Auth & Services</p>
+      <div class="skill-items">NextAuth.js · JWT<br/>bcrypt<br/>PWA · Service Worker<br/>Sharp (images)</div>
+    </div>
+    <div class="skill-card">
+      <p class="skill-cat">Tooling</p>
+      <div class="skill-items">Git · GitHub<br/>Vercel<br/>ESLint · Prettier<br/>VS Code</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── INTERVIEW TIPS ── -->
+<section class="section reveal">
+  <p class="section-label">For the interview</p>
+  <div class="interview-box">
+    <div class="interview-header">Suggested answer when asked about your projects</div>
+    <div class="interview-body">
+      <strong>"My main project is RentMyCar</strong> — a full-stack peer-to-peer car rental platform built with Next.js 14, TypeScript, and MongoDB, deployed on Vercel. It has a complete auth system with NextAuth and bcrypt, a REST API with 10 endpoints including date-overlap availability checking, image processing with Sharp, and PWA support so it's installable on mobile.
+      <br/><br/>
+      Before that I built Educator — a tutoring platform across two versions. The first in React 18 with JWT auth, Redux Toolkit, and 7 API service modules connected to a Spring Boot backend. The second I rebuilt from scratch in Next.js 13 with a mentor — I focused on a proper component library, custom hooks like debounced resize detection and pixel-accurate text overflow, and generic TypeScript components.
+      <br/><br/>
+      <strong>All three projects are on GitHub.</strong> RentMyCar is live and I can walk you through the code right now."
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
