@@ -1,6 +1,4 @@
-Evo:
 
-Srđan Vasić — Frontend Developer Portfolio
 Personal portfolio showcasing 3 years of self-taught frontend development. Built with vanilla HTML, CSS, and JavaScript — no frameworks, no build tools, just clean code.
 Live: cpku21.github.io
 
