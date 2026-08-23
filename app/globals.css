@@ -68,6 +68,7 @@ a { color: inherit; text-decoration: none; }
 .projectCopy > p:not(.projectType) { color: #b7b4aa; line-height: 1.75; }
 .projectStack { display: flex; flex-wrap: wrap; gap: 8px; margin: 25px 0 34px; padding: 0; list-style: none; }
 .projectStack li { padding: 7px 10px; border: 1px solid #56534d; border-radius: 999px; color: #cfccc3; font-size: 0.68rem; }
+.projectActions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
 .textLink { display: inline-block; padding-bottom: 7px; border-bottom: 1px solid var(--acid); font-size: 0.85rem; font-weight: 700; }
 
 .projectArchive { padding: 110px max(20px, calc((100vw - 1180px) / 2)); }
