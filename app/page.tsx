@@ -116,14 +116,24 @@ export default function Home() {
               <li>NextAuth</li>
               <li>Vitest</li>
             </ul>
-            <a
-              className="textLink"
-              href="https://github.com/stefan-lukic/rent-my-car-app"
-              target="_blank"
-              rel="noreferrer"
-            >
-              View repository <span aria-hidden="true">↗</span>
-            </a>
+            <div className="projectActions">
+              <a
+                className="button buttonPrimary"
+                href="https://rent-my-car-app.vercel.app/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Live demo <span aria-hidden="true">↗</span>
+              </a>
+              <a
+                className="textLink"
+                href="https://github.com/stefan-lukic/rent-my-car-app"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View repository <span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </div>
         </article>
       </section>
