@@ -105,10 +105,38 @@ export default function Home() {
             <h3>RentMyCar</h3>
             <p>
               A peer-to-peer car rental marketplace where owners publish
-              vehicles and renters search, book, and manage reservations.
-              Built around secure authentication, ownership checks, reliable
-              availability, and responsive user flows.
+              vehicles and customers search, book, and manage reservations.
+              I started it as the next step after my mentor-led projects: a
+              larger application where I could connect the interface, API,
+              authentication, database, and business rules into one product.
             </p>
+            <dl className="projectDetails">
+              <div>
+                <dt>What I built</dt>
+                <dd>
+                  Responsive user flows for browsing and publishing cars,
+                  account management, reservations, and separate owner and
+                  customer views.
+                </dd>
+              </div>
+              <div>
+                <dt>What I worked through</dt>
+                <dd>
+                  NextAuth sessions, protected actions, ownership checks,
+                  MongoDB data relationships, availability rules, validation,
+                  loading states, and understandable error feedback.
+                </dd>
+              </div>
+              <div>
+                <dt>What I learned</dt>
+                <dd>
+                  How frontend decisions depend on API and data design, why
+                  authorization must also be enforced on the server, and how
+                  tests help protect important reservation rules while the app
+                  changes.
+                </dd>
+              </div>
+            </dl>
             <ul className="projectStack" aria-label="Project technologies">
               <li>Next.js 14</li>
               <li>TypeScript</li>
@@ -144,8 +172,8 @@ export default function Home() {
           <h2 id="archive-title">A record of steady progress.</h2>
           <p>
             Each project marks a step forward—from a React client connected to
-            an external API to structured Next.js applications and independent
-            full-stack development.
+            a mentor-provided backend, through a more structured Next.js
+            rebuild, to developing my own full-stack product.
           </p>
         </div>
 
@@ -155,10 +183,29 @@ export default function Home() {
             <p className="cardKicker">NEXT.JS APPLICATION</p>
             <h3>Educator v2</h3>
             <p>
-              A Next.js rebuild of a tutoring platform developed with mentor
-              guidance, with reusable TypeScript components, Redux state, form
-              validation, and a disciplined project structure.
+              A Next.js rebuild of the tutoring platform. My mentor defined the
+              project and provided the backend, database models, and API
+              contract; I read those models and built the frontend and its API
+              integration.
             </p>
+            <dl className="cardDetails">
+              <div>
+                <dt>My work</dt>
+                <dd>
+                  Reusable TypeScript components, Redux Toolkit state, typed
+                  requests, authentication flows, protected pages, and forms
+                  with Formik and Yup validation.
+                </dd>
+              </div>
+              <div>
+                <dt>What I learned</dt>
+                <dd>
+                  How clearer structure, shared state, reusable components, and
+                  consistent validation make a growing application easier to
+                  understand and maintain.
+                </dd>
+              </div>
+            </dl>
             <ul>
               <li>Next.js 13</li>
               <li>Redux Toolkit</li>
@@ -172,10 +219,29 @@ export default function Home() {
             <p className="cardKicker">REACT APPLICATION</p>
             <h3>Educator v1</h3>
             <p>
-              A React tutoring platform connected to a Spring Boot API,
-              featuring typed service modules, JWT authentication, protected
-              routes, search flows, and reusable UI components.
+              My first larger React application and the point where separate
+              lessons became a connected product. My mentor provided the idea,
+              Spring Boot backend, and data models; I implemented the frontend
+              against that existing API.
             </p>
+            <dl className="cardDetails">
+              <div>
+                <dt>My work</dt>
+                <dd>
+                  Responsive screens, reusable UI components, typed Axios
+                  services, JWT authentication, protected routes, search, and
+                  the main tutoring-platform user flows.
+                </dd>
+              </div>
+              <div>
+                <dt>What I learned</dt>
+                <dd>
+                  How React state, routing, forms, asynchronous requests, API
+                  responses, and error handling work together in a real
+                  multi-page application.
+                </dd>
+              </div>
+            </dl>
             <ul>
               <li>React 18</li>
               <li>TypeScript</li>
@@ -201,8 +267,9 @@ export default function Home() {
             <p>
               I bring that same mindset to software. I&apos;ve spent the last
               several years learning modern web development through real
-              projects, mentor feedback, code reviews, testing, and continuous
-              iteration.
+              projects—first building frontends against a mentor-provided
+              backend, then taking on API design, database work, security,
+              testing, and deployment in my own full-stack application.
             </p>
           </div>
 
@@ -224,11 +291,11 @@ export default function Home() {
           </li>
           <li>
             <span>02</span>
-            <div><strong>Structured applications</strong><p>TypeScript, Redux, APIs, authentication, mentor-led reviews</p></div>
+            <div><strong>Frontend integration</strong><p>TypeScript, Redux, API models, authentication, validation, and mentor feedback</p></div>
           </li>
           <li>
             <span>03</span>
-            <div><strong>Full-stack ownership</strong><p>Next.js, MongoDB, security, testing, production deployment</p></div>
+            <div><strong>Full-stack development</strong><p>Next.js, MongoDB, business rules, security checks, testing, and production deployment</p></div>
           </li>
         </ol>
       </section>
